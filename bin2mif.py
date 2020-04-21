@@ -16,7 +16,7 @@ def error(msg):
 @click.command()
 @click.argument('input', type=click.Path(exists=True))
 @click.argument('output', type=click.Path())
-@click.option('-f', '--force', is_flag=True, help='allow override of output file')
+@click.option('-f', '--force', is_flag=True, help='allow overriding of output file')
 @click.option('-w', '--word-width', type=click.INT, default=32, help='bit width of each word in each file, -1 for one pixel per word')
 @click.option('-r', '--dump-radix', type=click.Choice(['HEX', 'BIN']), default='HEX', help='radix to use when dumping data')
 def process(input, output, force, word_width, dump_radix):

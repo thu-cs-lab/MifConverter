@@ -17,8 +17,8 @@ def error(msg):
 @click.command()
 @click.argument('input', type=click.Path(exists=True))
 @click.argument('output', type=click.Path())
-@click.option('-m', '--mode', type=click.Choice(['gray', 'rgb']), default='rgb', help='output file mode')
-@click.option('-f', '--force', is_flag=True, help='allow override of output file')
+@click.option('-m', '--mode', type=click.Choice(['gray', 'rgb']), default='rgb', help='output file color mode')
+@click.option('-f', '--force', is_flag=True, help='allow overriding of output file')
 @click.option('-c', '--channel-width', type=click.INT, default=3, help='bit width of each channel per pixel')
 @click.option('-w', '--word-width', type=click.INT, default=-1, help='bit width of each word in each file, -1 for one pixel per word')
 @click.option('-t', '--threshold', type=click.IntRange(0, 255), default = 127, help='threshold of binarization (0 to 255) (valid when channel width = 1)')
@@ -64,6 +64,8 @@ def process(input, output, mode, force, channel_width, word_width, threshold, du
     w, h = img.shape[0], img.shape[1]
     c = img.shape[2] if color else 1
     print(f'Image shape: {w} * {h} with {c} color channel(s)')
+    if c == 1 and color:
+        error('Grayscale images could not be used in RGB mode')
     if c != 1 and c != 3:
         error('Unsupported channel number {c}')
 
